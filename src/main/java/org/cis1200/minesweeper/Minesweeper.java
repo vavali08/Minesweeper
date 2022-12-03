@@ -51,6 +51,8 @@ public class Minesweeper {
         firstX = -2;
     }
 
+
+    
     /**
      * After the first coordinate is clicked, places the mines on the gameboard and calculates the number of
      * mines surrounding each square. The first square clicked MUST have numMines = 0 after the mines are placed.
