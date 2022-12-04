@@ -52,7 +52,7 @@ public class Minesweeper {
     }
 
 
-    
+
     /**
      * After the first coordinate is clicked, places the mines on the gameboard and calculates the number of
      * mines surrounding each square. The first square clicked MUST have numMines = 0 after the mines are placed.
@@ -77,6 +77,17 @@ public class Minesweeper {
      * @param y y coordinate of square clicked
      */
     public void click(int x, int y) {
+        Square s = board[y][x];
+        if (s.isFlagged()) {
+            s.changeFlagged();
+        } else {
+            s.uncover();
+            if (s.isMine()) {
+                gameOver = 1;
+            } else if (didUserWin()) {
+                gameOver = 2;
+            }
+        }
 
     }
 
@@ -86,6 +97,10 @@ public class Minesweeper {
      * @param y y coordinate of square clicked
      */
     public void rightClick(int x, int y) {
+        Square s = board[y][x];
+        if(s.isCovered()) {
+            s.changeFlagged();
+        }
 
     }
 

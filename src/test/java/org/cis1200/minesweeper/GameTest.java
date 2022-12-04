@@ -162,16 +162,158 @@ public class GameTest {
         assertFalse(m.minePlaceable(1,1));
     }
 
+    @Test
+    public void testClickAlreadyUncovered() {
+        Minesweeper m1 = testingBoard();
+        Minesweeper m2 = testingBoard();
+        Square[][] b = m1.getBoard();
+        m1.getBoard()[0][0].uncover();
+        m2.getBoard()[0][0].uncover();
+
+        m1.click(0,0);
+        assertEquals(m2.getBoard()[0][0], m1.getBoard()[0][0]);
+
+    }
+
+    @Test
+    public void testClickMine() {
+        Minesweeper m1 = testingBoard();
+        m1.click(6,0);
+        assertFalse(m1.getBoard()[0][6].isCovered());
+        assertEquals(1, m1.isGameOver());
+    }
+
+    @Test
+    public void testClickNonMine() {
+        Minesweeper m1 = testingBoard();
+        m1.click(0, 0);
+        assertEquals(new Square(false, false, false, 0), m1.getBoard()[0][0]);
+
+    }
+
+    @Test
+    public void testClickFlagged() {
+        Minesweeper m1 = testingBoard();
+        Minesweeper m2 = testingBoard();
+        m1.rightClick(0, 0);
+        m1.click(0, 0);
+        assertEquals(m2.getBoard()[0][0], m1.getBoard()[0][0]);
+    }
+
+    @Test
+    public void rightClickUncoveredDoesNothing() {
+        Minesweeper m1 = testingBoard();
+        Minesweeper m2 = testingBoard();
+        m1.click(0, 0);
+        m2.click(0, 0);
+        m1.rightClick(0, 0);
+
+        assertEquals(m2.getBoard()[0][0], m1.getBoard()[0][0]);
+
+    }
+
+    @Test
+    public void rightClickFlagNonMine() {
+        Minesweeper m1 = testingBoard();
+        m1.rightClick(0, 0 );
+        assertTrue(m1.getBoard()[0][0].isFlagged());
+
+    }
+
+    @Test
+    public void rightClickUnflagNonMine() {
+        Minesweeper m1 = testingBoard();
+        m1.getBoard()[0][0] = new Square(true, false, true, 0);
+        m1.rightClick(0, 0);
+        assertFalse(m1.getBoard()[0][0].isFlagged());
+
+    }
+
+    @Test
+    public void rightClickFlagMine() {
+        Minesweeper m1 = testingBoard();
+        m1.getBoard()[0][6] = new Square(true, true, false, 1);
+        m1.rightClick(6, 0);
+        assertTrue(m1.getBoard()[0][6].isFlagged());
+
+    }
+
+    @Test
+    public void rightClickUnflagMine() {
+        Minesweeper m1 = testingBoard();
+        m1.getBoard()[0][6] = new Square(true, true, true, 1);
+        m1.rightClick(6, 0);
+        assertFalse(m1.getBoard()[0][6].isFlagged());
+
+    }
+
+    @Test
+    public void testUserWinFalse() {
+        Minesweeper m1 = testingBoard();
+        assertFalse(m1.didUserWin());
+    }
+
+    @Test
+    public void testUserWon() {
+        Minesweeper m1 = testingBoard();
+        Square[][] b = m1.getBoard();
+        for(int i = 0; i < b.length; i++) {
+            for(int j = 0; j < b[i].length; j++)
+                if (!b[i][j].isMine()) {
+                    m1.click(j, i);
+                }
+        }
+        assertTrue(m1.didUserWin());
+        assertEquals(2, m1.isGameOver());
+
+    }
+
+
 
     @Test
     public void testResetGameAlreadyExists() {
-        // add code for game already being played
+        Minesweeper m = testingBoard();
+        m.reset();
+
+        assertEquals(m.isGameOver(), 0);
+        assertEquals(m.isGameStarted(), false);
+
+        Square[][] b = m.getBoard();
+        Square def = new Square();
+
+        for (Square[] row : b) {
+            for(Square s : row) {
+                assertEquals(def, s);
+            }
+        }
 
     }
 
     @Test
     public void testResetAfterGameOver() {
-        // add code for game already being played
+        Minesweeper m = testingBoard();
+        Square[][] b = m.getBoard();
+        for(int i = 0; i < b.length; i++) {
+            for(int j = 0; j < b[i].length; j++)
+                if (!b[i][j].isMine()) {
+                    m.click(j, i);
+                }
+        }
+        assertTrue(m.didUserWin());
+        assertEquals(2, m.isGameOver());
+
+        m.reset();
+
+        assertEquals(m.isGameOver(), 0);
+        assertEquals(m.isGameStarted(), false);
+
+        Square def = new Square();
+
+        for (Square[] row : b) {
+            for(Square s : row) {
+                assertEquals(def, s);
+            }
+        }
 
     }
 
