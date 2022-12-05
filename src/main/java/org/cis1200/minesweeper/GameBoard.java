@@ -13,20 +13,31 @@ public class GameBoard extends JPanel {
     public static final int BOARD_WIDTH = 270;
     public static final int BOARD_HEIGHT = 270;
 
+    private Mine mine;
+
+    private Flag flag;
+
     public GameBoard(JLabel statusInit) {
         m = new Minesweeper();
         status = statusInit;
+        mine = new Mine();
+        flag = new Flag();
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 Point p = e.getPoint();
-
-                if(!m.isGameStarted()) {
-                    m.firstClick(p.x / 30, p.y / 30);
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    m.rightClick(p.x / 30, p.y /30);
                 } else {
-                    m.click(p.x / 30, p.y / 30);
+                    if(!m.isGameStarted()) {
+                        m.firstClick(p.x / 30, p.y / 30);
+                    } else {
+                        m.click(p.x / 30, p.y / 30);
+                    }
                 }
+
+
 
                 updateStatus(); // updates the status JLabel
                 repaint(); // repaints the game board
@@ -93,15 +104,16 @@ public class GameBoard extends JPanel {
         for(int r = 0; r < b.length; r++) {
             for(int c = 0; c < b[r].length; c++) {
                 String state = b[r][c].toString();
-                if(!(state.equals("F") || state.equals("m") || state.equals("_"))) {
+                if(state.equals("F")) {
+                    flag.draw(g, c*30 + 2, r*30+2);
+                } else if(!(state.equals("m") || state.equals("_"))) {
                     g.setColor(Color.gray);
                     g.fillRect(c * 30 +1, r * 30 + 1, 28, 28);
                     if(state.equals("M")) {
-                        g.setColor(Color.red);
-                        g.fillOval(c * 30 + 2, r * 30 + 2, 25, 25);
-                        //paint it red
+                        mine.draw(g, c*30 + 2, r*30+2);
+
                     } else {
-                        if(!state.equals(0)) {
+                        if(!state.equals("0")) {
                             g.setColor(Color.black);
                             g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
                             g.drawString(state, c * 30 + 5, r * 30 + 25);

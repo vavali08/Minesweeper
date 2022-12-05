@@ -77,17 +77,19 @@ public class Minesweeper {
      * @param y y coordinate of square clicked
      */
     public void click(int x, int y) {
-        Square s = board[y][x];
-        if (s.isFlagged()) {
-            s.changeFlagged();
-        } else {
-            s.uncover();
-            if (s.isMine()) {
-                gameOver = 1;
-            } else if(s.getNumMines() == 0) {
-                uncoverSurrounding(x, y);
-            } else if (didUserWin()) {
-                gameOver = 2;
+        if(gameOver == 0) {
+            Square s = board[y][x];
+            if (s.isFlagged()) {
+                s.changeFlagged();
+            } else {
+                s.uncover();
+                if (s.isMine()) {
+                    gameOver = 1;
+                } else if (s.getNumMines() == 0) {
+                    uncoverSurrounding(x, y);
+                } else if (didUserWin()) {
+                    gameOver = 2;
+                }
             }
         }
 

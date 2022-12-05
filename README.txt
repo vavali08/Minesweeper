@@ -42,3 +42,10 @@ PennKey: _______
 
 - Cite any external resources (images, tutorials, etc.) that you may have used 
   while implementing your game.
+
+IMAGES
+
+Mine: https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.amazon.com%2FArclite-Systems-Ltd-Minesweeper-Classic%2Fdp%2F
+B00EJO59PE&psig=AOvVaw2F7BC41mJaXXrUaUPonQ91&ust=1670364838659000&source=images&cd=vfe&ved=0CBAQjhxqFwoTCNCz1sTA4_sCFQAA
+AAAdAAAAABAD
+
