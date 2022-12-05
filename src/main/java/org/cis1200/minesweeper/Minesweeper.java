@@ -84,6 +84,8 @@ public class Minesweeper {
             s.uncover();
             if (s.isMine()) {
                 gameOver = 1;
+            } else if(s.getNumMines() == 0) {
+                uncoverSurrounding(x, y);
             } else if (didUserWin()) {
                 gameOver = 2;
             }
