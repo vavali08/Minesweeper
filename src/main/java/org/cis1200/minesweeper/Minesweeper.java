@@ -370,9 +370,7 @@ public class Minesweeper {
                 if (num != s.getNumMines()) {
                     return false;
                 }
-                if (num == 0) {
-                    uncoverSurrounding(j, i);
-                }
+
 
                 //checking uncovered squares
                 if (!s.isCovered()) {
