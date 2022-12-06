@@ -2,6 +2,7 @@ package org.cis1200.minesweeper;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
 
 public class GameBoard extends JPanel {
@@ -125,12 +126,22 @@ public class GameBoard extends JPanel {
     }
 
     /**
+     * Saves the current state of the game in a file
+     * @param filePath - filePath for saved game
+     */
+    public void toFile(String filePath) throws IOException {
+        m.toFile(filePath);
+    }
+
+    /**
      * Returns the size of the game board.
      */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
     }
+
+
 
 
 }

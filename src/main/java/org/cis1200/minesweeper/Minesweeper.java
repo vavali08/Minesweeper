@@ -1,5 +1,11 @@
 package org.cis1200.minesweeper;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+
 public class Minesweeper {
 
     /**
@@ -19,12 +25,12 @@ public class Minesweeper {
     private boolean gameStarted;
 
     /**
-     * the x coordinate of the first square clicked, or -1 if the game has not yet started
+     * the x coordinate of the first square clicked, or -2 if the game has not yet started
      */
     private int firstX;
 
     /**
-     * the y coordinate of the first square clicked, or -1 if the game has not yet started
+     * the y coordinate of the first square clicked, or -2 if the game has not yet started
      */
     private int firstY;
 
@@ -260,5 +266,34 @@ public class Minesweeper {
             }
             System.out.println();
         }
+    }
+
+    /**
+     * Saves the current state of the game in a file
+     * @param filePath where the file should be saved
+     */
+    public void toFile(String filePath) throws IOException {
+        File file = Paths.get(filePath).toFile();
+        BufferedWriter bw = null;
+
+            bw = new BufferedWriter(new FileWriter(file, false));
+            bw.write(String.valueOf(gameOver));
+            bw.newLine();
+            bw.write(String.valueOf(gameStarted));
+            bw.newLine();
+            bw.write(String.valueOf(firstX));
+            bw.newLine();
+            bw.write(String.valueOf(firstY));
+            bw.newLine();
+
+            for(int i = 0; i < board.length; i++) {
+                for(int j = 0; j < board[i].length; j++) {
+                    Square s = board[i][j];
+                    bw.write(s.isCovered() + "," + s.isMine() + "," + s.isFlagged() + "," + s.getNumMines() + "\n");
+                }
+            }
+            bw.close();
+
+
     }
 }

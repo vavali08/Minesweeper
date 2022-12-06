@@ -2,7 +2,11 @@ package org.cis1200.minesweeper;
 
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class RunMinesweeper implements Runnable {
 
@@ -21,15 +25,17 @@ public class RunMinesweeper implements Runnable {
         final org.cis1200.minesweeper.GameBoard board = new GameBoard(status);
         frame.add(board, BorderLayout.CENTER);
 
-        // Reset button
+        // Button Panel
         final JPanel control_panel = new JPanel();
+        control_panel.setLayout(new GridLayout(2, 2));
         frame.add(control_panel, BorderLayout.NORTH);
 
-        final JButton reset = new JButton("Reset");
+        //Reset button
+        final JButton reset = new JButton("New Game");
         reset.addActionListener(e -> board.reset());
         control_panel.add(reset);
 
-        //button for instructions
+        //Instruction Button
         final JButton instructions = new JButton("Instructions");
 
         String instructionsText =
@@ -44,6 +50,32 @@ public class RunMinesweeper implements Runnable {
         instructions.addActionListener(e -> JOptionPane.showMessageDialog(null, instructionsText,
                 "Instructions", JOptionPane.INFORMATION_MESSAGE));
         control_panel.add(instructions);
+
+        //Save Button
+        final JButton save = new JButton("Save Game");
+        //String filePath;
+        save.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    String filePath = JOptionPane.showInputDialog("Enter the File Path for where you would like to save"
+                            + "your game");
+                    try {
+                        board.toFile(filePath);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        throw new RuntimeException(ex);
+                    }
+                }
+        });
+
+
+        control_panel.add(save);
+
+        //Load Button
+        final JButton load = new JButton("Load Game");
+        control_panel.add(load);
+
+
 
 
         // Put the frame on the screen
