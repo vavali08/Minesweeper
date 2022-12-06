@@ -6,6 +6,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class RunMinesweeper implements Runnable {
@@ -55,15 +56,15 @@ public class RunMinesweeper implements Runnable {
         final JButton save = new JButton("Save Game");
         //String filePath;
         save.addActionListener(new ActionListener() {
+            @Override
                 public void actionPerformed(ActionEvent e) {
                     String filePath = JOptionPane.showInputDialog("Enter the File Path for where you would like to save"
-                            + "your game");
+                            + " your game");
                     try {
                         board.toFile(filePath);
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
                                 JOptionPane.ERROR_MESSAGE);
-                        throw new RuntimeException(ex);
                     }
                 }
         });
@@ -73,6 +74,25 @@ public class RunMinesweeper implements Runnable {
 
         //Load Button
         final JButton load = new JButton("Load Game");
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String filePath = JOptionPane.showInputDialog("Enter the File Path from which you would like to load"
+                        + " your game");
+                try {
+                    board.fromFile(filePath);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "This file was not found :(",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IllegalArgumentException ex2) {
+                    JOptionPane.showMessageDialog(null, "Your input was not valid",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex3) {
+                    JOptionPane.showMessageDialog(null, "Your input was not valid",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         control_panel.add(load);
 
 

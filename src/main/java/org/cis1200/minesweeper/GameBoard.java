@@ -2,6 +2,7 @@ package org.cis1200.minesweeper;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 
@@ -131,6 +132,15 @@ public class GameBoard extends JPanel {
      */
     public void toFile(String filePath) throws IOException {
         m.toFile(filePath);
+    }
+
+    /**
+     *
+     */
+    public void fromFile(String filePath) throws IOException {
+        m.fromFile(filePath);
+        updateStatus();
+        repaint();
     }
 
     /**

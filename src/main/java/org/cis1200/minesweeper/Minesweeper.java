@@ -1,9 +1,6 @@
 package org.cis1200.minesweeper;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 
 public class Minesweeper {
@@ -296,4 +293,112 @@ public class Minesweeper {
 
 
     }
+
+    public void fromFile(String filePath) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        gameOver = Integer.parseInt(br.readLine());
+        gameStarted = Boolean.parseBoolean(br.readLine());
+        firstX = Integer.parseInt(br.readLine());
+        firstY = Integer.parseInt(br.readLine());
+
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                String[] values = br.readLine().split(",");
+                board[i][j] = new Square(Boolean.parseBoolean(values[0]), Boolean.parseBoolean(values[1]),
+                        Boolean.parseBoolean(values[2]), Integer.parseInt(values[3]));
+            }
+        }
+        br.close();
+
+        if(!isValidGame()) {
+            throw new IllegalArgumentException();
+        }
+
+
+    }
+
+    /**
+     * checks all instance variables in the game and their relations to see if the current game is "valid" or if it
+     * breaks one of the rules of minesweeper. The game is invalid when either:
+     *  1. numMines of a Square doesn't match the number of mines surrounding a Square
+     *  2. gameStarted is false (the game has not started) but gameOver stores a nonzero value or any of the squares are
+     *  uncovered
+     *  3. the user is stored as the winner but a non-mine square is covered
+     *  4. the user is stored as the loser but there are no uncovered mines
+     *  5. all non-mine squares are uncovered but the user is not stored as the winner
+     *  6. there is an uncovered mine but the user is not stored as the loser.
+     *  7. There is a mine next to the first clicked square
+     *
+     *  If some mines are covered though they should be uncovered, as per the uncover surrounding function, this will be
+     *  taken care of here and those mines will be uncovered.
+     * @return whether the game is valid.
+     */
+    public boolean isValidGame() {
+        boolean mineIsUncovered = false;
+        boolean nonMineIsCovered = false;
+
+        //condition 2
+        if(!gameStarted && gameOver != 0) {
+            return false;
+        }
+
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Square s = board[i][j];
+
+
+                //condition 1
+                int num = 0;
+                for(int a = i - 1; a <= i + 1; a++) {
+                    for(int b = j - 1; b <= j + 1; b++) {
+                        if(!(a == i && b == j) && isValidSquare(b, a) && board[a][b].isMine()) {
+                            num++;
+                        }
+                        //condition 7
+                        if(j == firstX && i == firstY && board[a][b].isMine()) {
+                            return false;
+                        }
+                    }
+                }
+                if(num != s.getNumMines()) {
+                    return false;
+                }
+
+                //checking uncovered squares
+                if(!s.isCovered()) {
+                    //condition 2
+                    if(!gameStarted) {
+                        return false;
+                    }
+                    if(s.isMine()) {
+                        mineIsUncovered = true;
+                        if(gameOver != 1) { //condition 6
+                            return false;
+                        }
+                    }
+                } else {
+                    //checking covered squares
+                    if(!s.isMine()) {
+                        nonMineIsCovered = true;
+                        if(gameOver == 2) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        //condition 4
+        if(!mineIsUncovered && gameOver == 2) {
+            return false;
+        }
+
+        //condition 5
+        if(!nonMineIsCovered && gameOver != 2) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
