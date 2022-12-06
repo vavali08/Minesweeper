@@ -2,7 +2,6 @@ package org.cis1200.minesweeper;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 
@@ -30,9 +29,9 @@ public class GameBoard extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 Point p = e.getPoint();
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    m.rightClick(p.x / 30, p.y /30);
+                    m.rightClick(p.x / 30, p.y / 30);
                 } else {
-                    if(!m.isGameStarted()) {
+                    if (!m.isGameStarted()) {
                         m.firstClick(p.x / 30, p.y / 30);
                     } else {
                         m.click(p.x / 30, p.y / 30);
@@ -63,7 +62,7 @@ public class GameBoard extends JPanel {
      * updates JLabel with game state
      */
     private void updateStatus() {
-        if(m.isGameOver() == 0) {
+        if (m.isGameOver() == 0) {
             status.setText("Playing game...");
         } else if (m.isGameOver() == 1) {
             status.setText("You lose.");
@@ -88,11 +87,11 @@ public class GameBoard extends JPanel {
      */
     public void drawGrid(Graphics g) {
         //draw horizontal lines -
-        for(int y = 0; y <= 270; y += 30) {
+        for (int y = 0; y <= 270; y += 30) {
             g.drawLine(0, y, 270, y);
         }
         //draw vertical lines -
-        for(int x = 0; x <= 270; x += 30) {
+        for (int x = 0; x <= 270; x += 30) {
             g.drawLine(x, 0, x, 270);
         }
     }
@@ -103,19 +102,19 @@ public class GameBoard extends JPanel {
      */
     public void fillGrid(Graphics g) {
         Square[][] b = m.getBoard();
-        for(int r = 0; r < b.length; r++) {
-            for(int c = 0; c < b[r].length; c++) {
+        for (int r = 0; r < b.length; r++) {
+            for (int c = 0; c < b[r].length; c++) {
                 String state = b[r][c].toString();
-                if(state.equals("F")) {
-                    flag.draw(g, c*30 + 2, r*30+2);
-                } else if(!(state.equals("m") || state.equals("_"))) {
+                if (state.equals("F")) {
+                    flag.draw(g, c * 30 + 2, r * 30 + 2);
+                } else if (!(state.equals("m") || state.equals("_"))) {
                     g.setColor(Color.gray);
-                    g.fillRect(c * 30 +1, r * 30 + 1, 28, 28);
-                    if(state.equals("M")) {
-                        mine.draw(g, c*30 + 2, r*30+2);
+                    g.fillRect(c * 30 + 1, r * 30 + 1, 28, 28);
+                    if (state.equals("M")) {
+                        mine.draw(g, c * 30 + 2, r * 30 + 2);
 
                     } else {
-                        if(!state.equals("0")) {
+                        if (!state.equals("0")) {
                             g.setColor(Color.black);
                             g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
                             g.drawString(state, c * 30 + 5, r * 30 + 25);

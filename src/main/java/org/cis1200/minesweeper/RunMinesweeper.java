@@ -2,7 +2,6 @@ package org.cis1200.minesweeper;
 
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,12 +40,13 @@ public class RunMinesweeper implements Runnable {
 
         String instructionsText =
                 "Welcome to Minesweeper! Your goal is to locate the ten mines on the gameboard." +
-                "\n Click any square to begin. The number shown on a square indicates the number of mines surrounding" +
-                        " that square." +
-                "\n Once you have begun, left click to uncover a square, and right click to add/remove a flag. Flags" +
-                        " allow you to easily keep track of where the mines are." +
-                "\n There are two ways to end the game. If you uncover a mine, you will lose. Once you uncover all of" +
-                        " the squares which are not mines, you win! Enjoy!";
+                "\n Click any square to begin. The number shown on a square indicates the number" +
+                        " of mines surrounding that square." +
+                "\n Once you have begun, left click to uncover a square, and right click to " +
+                        "add/remove a flag. Flags allow you to easily keep track of where " +
+                        "the mines are." +
+                "\n There are two ways to end the game. If you uncover a mine, you will lose. " +
+                        "Once you uncover all of the squares which are not mines, you win! Enjoy!";
 
         instructions.addActionListener(e -> JOptionPane.showMessageDialog(null, instructionsText,
                 "Instructions", JOptionPane.INFORMATION_MESSAGE));
@@ -58,8 +58,8 @@ public class RunMinesweeper implements Runnable {
         save.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
-                    String filePath = JOptionPane.showInputDialog("Enter the File Path for where you would like to save"
-                            + " your game");
+                    String filePath = JOptionPane.showInputDialog("Enter the File Path for " +
+                            "where you would like to save your game");
                     try {
                         board.toFile(filePath);
                     } catch (IOException ex) {
@@ -77,8 +77,8 @@ public class RunMinesweeper implements Runnable {
         load.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String filePath = JOptionPane.showInputDialog("Enter the File Path from which you would like to load"
-                        + " your game");
+                String filePath = JOptionPane.showInputDialog("Enter the File Path from which " +
+                        "you would like to load your game");
                 try {
                     board.fromFile(filePath);
                 } catch (FileNotFoundException ex) {

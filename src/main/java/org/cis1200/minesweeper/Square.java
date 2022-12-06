@@ -87,14 +87,14 @@ public class Square {
      *
      * @param num the number of mines of this square
      */
-    public void setNumMines(int num){
+    public void setNumMines(int num) {
         numMines = num;
     }
 
     /**
      * increases the number of mines by 1
      */
-    public void incrMines(){
+    public void incrMines() {
         numMines++;
     }
 
@@ -123,18 +123,18 @@ public class Square {
     // for testing purposes
     @Override
     public boolean equals(Object o) {
-        if(!o.getClass().equals(this.getClass())) {
+        if (!o.getClass().equals(this.getClass())) {
             return false;
         }
         Square s = (Square) o;
-        return(this.covered == s.covered && this.mine == s.mine && this.flagged == s.flagged &&
+        return (this.covered == s.covered && this.mine == s.mine && this.flagged == s.flagged &&
                 this.numMines == s.numMines);
     }
 
     // for testing purposes
     @Override
     public String toString() {
-        if(covered) {
+        if (covered) {
             if (flagged) {
                 return "F";
             } else if (mine) {
@@ -145,8 +145,7 @@ public class Square {
         } else {
             if (mine) {
                 return "M";
-            }
-            else {
+            } else {
                 return "" + numMines;
             }
         }

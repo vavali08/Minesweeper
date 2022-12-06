@@ -56,7 +56,7 @@ public class GameTest {
         Square def = new Square();
 
         for (Square[] row : b) {
-            for(Square s : row) {
+            for (Square s : row) {
                 assertEquals(def, s);
             }
         }
@@ -82,8 +82,8 @@ public class GameTest {
         assertFalse(b[1][0].isCovered());
 
         int numMines = 0;
-        for(int i = 0; i < b.length; i++) {
-            for(int j = 0; j < b[i].length; j++) {
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[i].length; j++) {
                 if (b[i][j].isMine()) {
                     numMines++;
                 }
@@ -101,16 +101,16 @@ public class GameTest {
         m.printBoard();
 
         assertEquals(0, m.getBoard()[1][1].getNumMines());
-        for(int i = 0; i <= 2; i++) {
-            for(int j = 0; j <= 2; j++) {
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 2; j++) {
                 assertFalse(b[i][j].isMine());
                 assertFalse(b[i][j].isCovered());
             }
         }
 
         int numMines = 0;
-        for(int i = 0; i < b.length; i++) {
-            for(int j = 0; j < b[i].length; j++) {
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[i].length; j++) {
                 if (b[i][j].isMine()) {
                     numMines++;
                 }
@@ -215,7 +215,7 @@ public class GameTest {
     @Test
     public void rightClickFlagNonMine() {
         Minesweeper m1 = testingBoard();
-        m1.rightClick(0, 0 );
+        m1.rightClick(0, 0);
         assertTrue(m1.getBoard()[0][0].isFlagged());
 
     }
@@ -257,11 +257,12 @@ public class GameTest {
     public void testUserWon() {
         Minesweeper m1 = testingBoard();
         Square[][] b = m1.getBoard();
-        for(int i = 0; i < b.length; i++) {
-            for(int j = 0; j < b[i].length; j++)
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[i].length; j++) {
                 if (!b[i][j].isMine()) {
                     m1.click(j, i);
                 }
+            }
         }
         assertTrue(m1.didUserWin());
         assertEquals(2, m1.isGameOver());
@@ -282,7 +283,7 @@ public class GameTest {
         Square def = new Square();
 
         for (Square[] row : b) {
-            for(Square s : row) {
+            for (Square s : row) {
                 assertEquals(def, s);
             }
         }
@@ -293,11 +294,12 @@ public class GameTest {
     public void testResetAfterGameOver() {
         Minesweeper m = testingBoard();
         Square[][] b = m.getBoard();
-        for(int i = 0; i < b.length; i++) {
-            for(int j = 0; j < b[i].length; j++)
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[i].length; j++) {
                 if (!b[i][j].isMine()) {
                     m.click(j, i);
                 }
+            }
         }
         assertTrue(m.didUserWin());
         assertEquals(2, m.isGameOver());
@@ -310,7 +312,7 @@ public class GameTest {
         Square def = new Square();
 
         for (Square[] row : b) {
-            for(Square s : row) {
+            for (Square s : row) {
                 assertEquals(def, s);
             }
         }
