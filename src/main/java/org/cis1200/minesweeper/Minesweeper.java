@@ -91,9 +91,11 @@ public class Minesweeper {
                 s.uncover();
                 if (s.isMine()) {
                     gameOver = 1;
-                } else if (s.getNumMines() == 0) {
+                }
+                if (s.getNumMines() == 0) {
                     uncoverSurrounding(x, y);
-                } else if (didUserWin()) {
+                }
+                if (didUserWin()) {
                     gameOver = 2;
                 }
             }
@@ -221,7 +223,7 @@ public class Minesweeper {
 
     /**
      * whether the user has won the game yet.
-     * @return  true if all of the non-mine squares have been uncovered, false otherwise
+     * @return  true if all non-mine squares have been uncovered, false otherwise
      */
     public boolean didUserWin() {
         for (int r = 0; r < board.length; r++) {
